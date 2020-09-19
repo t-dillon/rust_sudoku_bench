@@ -567,6 +567,14 @@ impl Sudoku {
             .map_or(0, |solver| solver.count_at_most(limit))
     }
 
+    /// Counts number of solutions to sudoku up to `limit` and return number of guesses
+    /// This solves the sudoku but does not return the solutions which allows for slightly faster execution.
+    pub fn count_at_most_with_guesses(self, limit: usize) -> (usize, usize) {
+        SudokuSolver::from_sudoku(self)
+            .ok()
+            .map_or((0, 0), |solver| solver.count_at_most_with_guesses(limit))
+    }
+
     /// Checks whether sudoku has one and only one solution.
     /// This solves the sudoku but does not return the solution which allows for slightly faster execution.
     pub fn is_uniquely_solvable(self) -> bool {

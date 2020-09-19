@@ -56,8 +56,8 @@ use std::os::raw::c_char;
 
 /// Export a "C" function for calling the solver from the Tdoku benchmark program
 #[no_mangle]
-pub extern fn rust_solve_sudoku(input: *const c_char, limit: usize) -> usize {
+pub extern fn rust_solve_sudoku(input: *const c_char, limit: usize) -> (usize, usize) {
     let line = unsafe { CStr::from_ptr(input) };
     let sudoku = Sudoku::from_str_line(&line.to_str().unwrap()).unwrap();
-    sudoku.count_at_most(limit)
+    return sudoku.count_at_most_with_guesses(limit);
 }
